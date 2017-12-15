@@ -1,6 +1,7 @@
 uranusdb.iml
 .idea
 target
+events
 
 # Compiled class file
 *.class
