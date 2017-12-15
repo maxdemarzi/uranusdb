@@ -1,0 +1,37 @@
+before_install: echo "MAVEN_OPTS='-Xmx3072m'" > ~/.mavenrc
+sudo: required
+install: true
+language: java
+addons:
+  sonarcloud:
+    organization: maxdemarzi-github
+    token:
+      secure: SONARQUBE_URANUS_TOKEN
+    github_token:
+      secure: A0p9SIv/f2TMTgBsHMWvI0RATSwpthVhgRzdFVUW4YIyXvf+HjUKigc6gaXb4NurKd2XAlnVkzJ3h1s6pVO7PWPJftYDRKei7jQTwtYMtRfOHl8nun1+MNGCM/WBMWd5+U5r+vZmUm45pstc7VmEcbv6yl9CtpICf9lB5Xen/r6HzAknUoE0XXNPY7duYKDyBZ621m4a8zAzygtpRgHmtbSajmisxcS/m7y1UsfgEuOsfPiXoBtqmp/8u95/Em4VI8lpYmMyXh5DyikobSDem+l+PqTfHLwRW+GTp1B+eBBWYP3c7iGvEhCHajKTTzxMZFZCk/qE0mQxR3KPnIW2khMB/UZWHrXK7y47pe2oaq1BEYtLZ92HiKDuINy8in1G//gkPAkMkX4qK2xi66fGxy9Bhd0h6W+j8HYS3dJolBRpvakpscXNGUckYiB4IbecVTmYdVs9IWaHx2vlGxaLfOZhkzPereZ4RIBB2lwBgQMpIJObKG26OcbROI/zqKpnhP0dWEdnKJXPKueL587s7NtFsaUEBPal2JKTMoaW9D8eWR3zZ2KIAzjcdZuRwTIz2RJ9c4OiWHrGcWXr39IXz+oeAKsaxcmvOkm31k5Vz6zAVeSeEh/bQ4Ow0kbZvjN6KaDN4ZcJjXNgdGm8UE7zv+UN6dUGXt0hG0QY3jcizbI=
+jdk:
+- oraclejdk8
+script:
+- mvn test -B -q
+cache:
+  directories:
+  - "$HOME/.m2/repository"
+  - '$HOME/.sonar/cache'
+services:
+- docker
+env:
+  global:
+  - COMMIT=${TRAVIS_COMMIT::8}
+  - secure: kiaN/vRcYrl6+ScR5bJvn3En3RHcidG/Qi+4yBcVof8elhxh/bM6uUMLzuF3F2ofChmLUhe9b7HUz5LOwpvL9XSgiwB/6TYKuv1sJICkte7cZsT0g73tLveojZwYOGJBQuft6yX7TCG5WA0RqT23jceC6b3/GoK0TyyOKROIn0meE2iTImqjhxwN4UmM4ccyBDgPmhYTkC1Nz6fBKcw0/Wgv0flk8SbC3rBmL7EeC7x1H+DMeBEfTtu+PKr3KyEx+33BsAKd1uqaHoxlZNADxH2m0zgF30x5vIRVz0wOAqDkQ3QxsZyLN1TiXYsq8pTMP78bV3GkuWc0v9NuF1csQIxiV6OMDYMs1yY3vjL3H2L5AgFWQNDxvHhDfK1qw3L8c8k6WO1/CpEHlqbTz5e0XXFV96WCpKulsvC9KK+oRpzzWWaQnxVm+Ybfiww3Y+lvr9tJGKftSfFqDl4NTidJ8l17QLgD6VVDbKahis/5t7K8rWF1U27QHxf5qseGQqikoaoJbNijLowUf79VbtiPh/b/Uao2qaHLMmWwVpkne6Zmvr1RhsCljB0QsidaAtOQ8XXDrRKZhe8sNojWV3K5eH2pVAEOPfn89hRn7kjk6XXxupR6yaOhEQSWYPvsLQzVNmIXGEjZHB88M9C5YtF/5CUYwAIRWS44oTICUYPAQIQ=
+  - secure: pK62fO2pK43Y2sN5saNLRW/fXYltbKDZgAu5py84qNVOEJPnzd7jdRrokd/NufXfgD7Ctoq9W5gSy5gAw7QpZn4rSETrNPZCzJbqTapQOHB2lE8AMeSh0iO+KHzuGrYJJZpRA4gwRbYATg+lX49RhtIZ1Ermq0RJdd3+Ie41LF9JCXL5Lj6e1hgxKpy2ZLStE1M5XgkTKtBkMnvc8jtQ1e52ojTTxAM8C31S/HLla1HTM2o/npKRbWm+bamSfHecBT6z36THYDRBELBLqpzomcFbxois03/5A61gpt2C8js3IgczNHoD1axRvhebRyltYnC5b0vL2w/ekg0Tkxf5rCvGPVy5AOaj9fuhQnXG/vrKsmfGyphB95W6rXOyq/rXFEBivMjiqiLKCs+o+UmfWzaPU47/305MEMDzQDU95usLPja9aEHBnJ9DoAI7tb9rG1IEb/ZacrVx9w0VZX0ivaB1tiIXoTIxYA5scpVO2SM13ZO+tn8DNwYx4ZAa0pnt034+c3n51bAexeAQe0K6GRTcDsN/Z2qAzGaCXlzfWYgzYz1r6WvolYvD+oUTp0nyeJetzKm1ny70rarSuBcUGl1FzMvZGjl3juL0FWK+QVn9tGun1oAJoPUQEbV/efxvDjnJsl3ixoypwL2XAX7g5vIwsJvR3BGHP8OTOwZSZhw=
+after_success:
+- mvn test jacoco:report coveralls:report
+- sonar-scanner
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- export REPO=maxdemarzi/uranusdb
+- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
+  ; fi`
+- docker build -f Dockerfile -t $REPO:$COMMIT .
+- docker tag $REPO:$COMMIT $REPO:$TAG
+- docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+- docker push $REPO
