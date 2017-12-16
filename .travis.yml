@@ -10,8 +10,6 @@ cache:
   directories:
   - "$HOME/.m2/repository"
   - '$HOME/.sonar/cache'
-services:
-- docker
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::8}
@@ -19,12 +17,3 @@ env:
   - secure: pK62fO2pK43Y2sN5saNLRW/fXYltbKDZgAu5py84qNVOEJPnzd7jdRrokd/NufXfgD7Ctoq9W5gSy5gAw7QpZn4rSETrNPZCzJbqTapQOHB2lE8AMeSh0iO+KHzuGrYJJZpRA4gwRbYATg+lX49RhtIZ1Ermq0RJdd3+Ie41LF9JCXL5Lj6e1hgxKpy2ZLStE1M5XgkTKtBkMnvc8jtQ1e52ojTTxAM8C31S/HLla1HTM2o/npKRbWm+bamSfHecBT6z36THYDRBELBLqpzomcFbxois03/5A61gpt2C8js3IgczNHoD1axRvhebRyltYnC5b0vL2w/ekg0Tkxf5rCvGPVy5AOaj9fuhQnXG/vrKsmfGyphB95W6rXOyq/rXFEBivMjiqiLKCs+o+UmfWzaPU47/305MEMDzQDU95usLPja9aEHBnJ9DoAI7tb9rG1IEb/ZacrVx9w0VZX0ivaB1tiIXoTIxYA5scpVO2SM13ZO+tn8DNwYx4ZAa0pnt034+c3n51bAexeAQe0K6GRTcDsN/Z2qAzGaCXlzfWYgzYz1r6WvolYvD+oUTp0nyeJetzKm1ny70rarSuBcUGl1FzMvZGjl3juL0FWK+QVn9tGun1oAJoPUQEbV/efxvDjnJsl3ixoypwL2XAX7g5vIwsJvR3BGHP8OTOwZSZhw=
 after_success:
 - mvn test jacoco:report coveralls:report
-- sonar-scanner
-- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- export REPO=maxdemarzi/uranusdb
-- export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
-  ; fi`
-- docker build -f Dockerfile -t $REPO:$COMMIT .
-- docker tag $REPO:$COMMIT $REPO:$TAG
-- docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
-- docker push $REPO
