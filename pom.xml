@@ -13,6 +13,8 @@
         <javac.target>1.8</javac.target>
         <junit.version>4.12</junit.version>
         <restassured.version>3.0.3</restassured.version>
+        <swagger.version>2.0.0-rc2</swagger.version>
+        <swagger-ui.version>3.6.1</swagger-ui.version>
         <jsoniter.version>0.9.15</jsoniter.version>
         <fastutil.version>8.1.0</fastutil.version>
         <roaring.version>0.6.51</roaring.version>
@@ -40,6 +42,26 @@
             <groupId>com.typesafe</groupId>
             <artifactId>config</artifactId>
             <version>${typesafe.version}</version>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>${swagger-ui.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Jsoniter -->

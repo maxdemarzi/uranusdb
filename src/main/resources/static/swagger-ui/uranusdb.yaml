@@ -1,0 +1,79 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: UranusDB API
+  description: The UranusDB HTTP API
+  termsOfService: http://uranusdb.com/terms/
+  contact:
+      name: Max De Marzi
+      email: maxdemarzi@hotmail.com
+      url: http://maxdemarzi.com
+  license:
+      name: GNU Affero General Public License v3.0
+      url: https://www.gnu.org/licenses/agpl.html
+servers:
+  - url: http://localhost:8080/db
+paths:
+  /relationship_types:
+    get:
+      description: Returns all relationship types in the database.
+      operationId: getRelationshipTypes
+      responses:
+        '200':
+          description: Relationship Types Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          examples:
+            single:
+              summary: A single relationship type example
+              value: ["FRIENDS"]
+            multiple:
+              summary: Multiple relationship types example
+              value: ["FRIENDS", "LIKES", "FOLLOWS"]
+  /relationship_types/count:
+    get:
+      description: Returns all relationship type counts in the database.
+      operationId: getRelationshipTypeCounts
+      responses:
+        '200':
+          description: Relationship Type Counts Response
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/Counts'
+          examples:
+            single:
+              summary: A single relationship type count example
+              value: {"FRIENDS": 2}
+            multiple:
+              summary: Multiple relationship type counts example
+              value: {"FRIENDS":2, "LIKES":1, "FOLLOWS":4}
+
+components:
+  schemas:
+    RelationshipType:
+      type: string
+      pattern: "[A-Z0-9]{1,256}"
+    Counts:
+      additionalProperties:
+        type: integer
+    RelationshipTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/RelationshipType'
+
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

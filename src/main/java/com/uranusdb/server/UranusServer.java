@@ -13,8 +13,12 @@ import com.uranusdb.events.ExchangeEvent;
 import com.uranusdb.events.PersistenceHandler;
 import com.uranusdb.graph.FastUtilGraph;
 import com.uranusdb.graph.Graph;
+import io.undertow.Handlers;
 import io.undertow.Undertow;
-import io.undertow.server.RoutingHandler;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.resource.ClassPathResourceManager;
+import io.undertow.server.handlers.resource.ResourceHandler;
+import io.undertow.server.handlers.resource.ResourceManager;
 import io.undertow.util.StatusCodes;
 
 import javax.servlet.ServletException;
@@ -87,10 +91,10 @@ public class UranusServer {
                 .setBufferSize(conf.getInt("uranus.server.buffer_size"))
                 .setWorkerThreads(THREADS)
                 .setIoThreads(1)
-                .setHandler(new RoutingHandler()
-
-                        .add(GET, "/db/test", e -> e.setStatusCode(StatusCodes.OK))
-                        .add(GET, "/db/noop", new RequestHandler(false, Action.NOOP))
+                .setHandler(Handlers.path()
+                    .addPrefixPath("/db", Handlers.routing()
+                        .add(GET, "/test", e -> e.setStatusCode(StatusCodes.OK))
+                        .add(GET, "/noop", new RequestHandler(false, Action.NOOP))
 
                         .add(GET, PATH_REL_TYPES, new RequestHandler(false, Action.GET_RELATIONSHIP_TYPES))
                         .add(GET, PATH_REL_TYPES_COUNT, new RequestHandler(false, Action.GET_RELATIONSHIP_TYPES_COUNT))
@@ -123,10 +127,11 @@ public class UranusServer {
                         .add(DELETE, PATH_ADD_REL_PROPERTY, new RequestHandler(true, Action.DELETE_RELATIONSHIP_PROPERTY))
 
                         .add(GET, PATH_RELATED, new RequestHandler(false, Action.GET_RELATED))
-                        .add(GET, PATH_RELATED_TYPE, new RequestHandler(false, Action.GET_RELATED_TYPE))
+                        .add(GET, PATH_RELATED_TYPE, new RequestHandler(false, Action.GET_RELATED_TYPE)))
 
-                )
+                    .addPrefixPath("/swagger", createStaticSwaggerUIHandler()))
                 .build();
+
         undertow.start();
     }
 
@@ -135,4 +140,14 @@ public class UranusServer {
             undertow.stop();
         }
     }
+
+    private HttpHandler createStaticSwaggerUIHandler() {
+        final ResourceManager staticResources =
+                new ClassPathResourceManager(getClass().getClassLoader(), "static/swagger-ui");
+        final ResourceHandler resourceHandler = new ResourceHandler(staticResources);
+        resourceHandler.setDirectoryListingEnabled(false);
+        resourceHandler.setWelcomeFiles("index.html");
+        return resourceHandler;
+    }
+
 }
