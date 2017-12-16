@@ -2,13 +2,6 @@ before_install: echo "MAVEN_OPTS='-Xmx3072m'" > ~/.mavenrc
 sudo: required
 install: true
 language: java
-addons:
-  sonarcloud:
-    organization: maxdemarzi-github
-    token:
-      secure: SONARQUBE_URANUS_TOKEN
-    github_token:
-      secure: A0p9SIv/f2TMTgBsHMWvI0RATSwpthVhgRzdFVUW4YIyXvf+HjUKigc6gaXb4NurKd2XAlnVkzJ3h1s6pVO7PWPJftYDRKei7jQTwtYMtRfOHl8nun1+MNGCM/WBMWd5+U5r+vZmUm45pstc7VmEcbv6yl9CtpICf9lB5Xen/r6HzAknUoE0XXNPY7duYKDyBZ621m4a8zAzygtpRgHmtbSajmisxcS/m7y1UsfgEuOsfPiXoBtqmp/8u95/Em4VI8lpYmMyXh5DyikobSDem+l+PqTfHLwRW+GTp1B+eBBWYP3c7iGvEhCHajKTTzxMZFZCk/qE0mQxR3KPnIW2khMB/UZWHrXK7y47pe2oaq1BEYtLZ92HiKDuINy8in1G//gkPAkMkX4qK2xi66fGxy9Bhd0h6W+j8HYS3dJolBRpvakpscXNGUckYiB4IbecVTmYdVs9IWaHx2vlGxaLfOZhkzPereZ4RIBB2lwBgQMpIJObKG26OcbROI/zqKpnhP0dWEdnKJXPKueL587s7NtFsaUEBPal2JKTMoaW9D8eWR3zZ2KIAzjcdZuRwTIz2RJ9c4OiWHrGcWXr39IXz+oeAKsaxcmvOkm31k5Vz6zAVeSeEh/bQ4Ow0kbZvjN6KaDN4ZcJjXNgdGm8UE7zv+UN6dUGXt0hG0QY3jcizbI=
 jdk:
 - oraclejdk8
 script:
