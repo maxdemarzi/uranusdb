@@ -8,8 +8,7 @@ script:
 - mvn test -B -q
 cache:
   directories:
-  - "$HOME/.m2/repository"
-  - '$HOME/.sonar/cache'
+  - $HOME/.m2
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::8}
