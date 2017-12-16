@@ -67,8 +67,6 @@ public class DatabaseEventHandler implements EventHandler<ExchangeEvent> {
                 case DELETE_RELATIONSHIP_PROPERTY:
                     DeleteRelationshipProperty.handle(event, number, respond);
                     break;
-                default:
-                    break;
             }
         } else if (respond) {
             switch (event.getAction()) {
@@ -102,8 +100,6 @@ public class DatabaseEventHandler implements EventHandler<ExchangeEvent> {
                     break;
                 case GET_RELATED_TYPE:
                     GetRelatedByType.handle(event, number);
-                default:
-                    break;
             }
 
         }

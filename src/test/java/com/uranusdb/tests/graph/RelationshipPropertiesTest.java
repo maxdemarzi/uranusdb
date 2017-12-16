@@ -147,7 +147,10 @@ public class RelationshipPropertiesTest {
         db.deleteRelationshipProperties("LOVES", "Node", "one", "Node", "two");
 
         Map<String, Object> actual = db.getRelationship("LOVES", "Node", "one", "Node", "two");
-        Assert.assertEquals(new HashMap<>(), actual);
+        Assert.assertEquals(new HashMap<String, Object>() {{
+            put("_incoming_node_id", 2);
+            put("_outgoing_node_id", 3);
+        }}, actual);
     }
 
     @Test
@@ -162,7 +165,10 @@ public class RelationshipPropertiesTest {
         db.deleteRelationshipProperties("LOVES", "Node", "one", "Node", "two", 2);
 
         Map<String, Object> actual = db.getRelationship("LOVES", "Node", "one", "Node", "two", 2);
-        Assert.assertEquals(new HashMap<>(), actual);
+        Assert.assertEquals(  new HashMap<String, Object>() {{
+            put("_incoming_node_id", 2);
+            put("_outgoing_node_id", 3);
+        }}, actual);
     }
 
     @Test

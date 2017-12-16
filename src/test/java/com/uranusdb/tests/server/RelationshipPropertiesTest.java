@@ -145,6 +145,8 @@ public class RelationshipPropertiesTest {
         HashMap<String, Object> prop = new HashMap<>();
         prop.put("stars", 4);
         prop.put("archived", true);
+        prop.put("_incoming_node_id", 0);
+        prop.put("_outgoing_node_id", 2);
 
         given().
                 contentType("application/json").
@@ -207,6 +209,8 @@ public class RelationshipPropertiesTest {
         HashMap<String, Object> prop = new HashMap<>();
         prop.put("stars", 4);
         prop.put("archived", true);
+        prop.put("_incoming_node_id", 0);
+        prop.put("_outgoing_node_id", 2);
 
         given().
                 contentType("application/json").
