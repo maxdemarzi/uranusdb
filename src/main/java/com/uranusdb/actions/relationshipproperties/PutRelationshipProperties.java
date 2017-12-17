@@ -40,17 +40,15 @@ public interface PutRelationshipProperties {
         succeeded = updateRelationshipProperties(number, parameters, properties);
 
         if (respond) {
+            exchange.setStatusCode(StatusCodes.NOT_MODIFIED);
             if (succeeded) {
                 exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
                 exchange.setStatusCode(StatusCodes.CREATED);
                 exchange.getResponseSender().send(
                         JsonStream.serialize(Types.MAP, getRelationship(number, parameters)));
-            } else {
-                exchange.setStatusCode(StatusCodes.NOT_MODIFIED);
             }
             exchangeEvent.clear();
         }
-
     }
 
     static boolean updateRelationshipProperties(int number, Map<String, String> parameters, HashMap<String, Object> properties) {
@@ -65,7 +63,6 @@ public interface PutRelationshipProperties {
                     Integer.parseInt(parameters.get(Constants.NUMBER)),
                     properties);
         } else {
-
             succeeded = graphs[number].updateRelationshipProperties(parameters.get(Constants.TYPE),
                     parameters.get(Constants.LABEL1),
                     parameters.get(Constants.FROM),

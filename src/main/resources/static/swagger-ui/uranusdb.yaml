@@ -18,6 +18,8 @@ paths:
     get:
       description: Returns all relationship types in the database.
       operationId: getRelationshipTypes
+      tags:
+        - relationship_type
       responses:
         '200':
           description: Relationship Types Response
@@ -37,7 +39,9 @@ paths:
   /relationship_types/count:
     get:
       description: Returns all relationship type counts in the database.
-      operationId: getRelationshipTypeCounts
+      operationId: getRelationshipTypesCounts
+      tags:
+        - relationship_type
       responses:
         '200':
           description: Relationship Type Counts Response
@@ -53,7 +57,114 @@ paths:
             multiple:
               summary: Multiple relationship type counts example
               value: {"FRIENDS":2, "LIKES":1, "FOLLOWS":4}
+  /relationship_type/{type}/count:
+    get:
+      description: Returns a relationship type count in the database.
+      operationId: getRelationshipTypeCount
+      tags:
+        - relationship_type
+      parameters:
+        - name: type
+          in: path
+          required: true
+          description: The relationship type count to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Relationship Type Count Response
+          content:
+            application/json:
+              schema:
+                type: integer
+        '404':
+          description: Relationship Type Not Found
+  /node/{label}/{id}:
+    get:
+      summary: Retrieve node by label and id
+      operationId: getNodeByLabelAndId
+      tags:
+        - node
+      parameters:
+        - name: label
+          in: path
+          required: true
+          description: The label of the Node to retrieve
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: The id of the Node to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Node Response
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Node Not Found
 
+    post:
+      summary: Create Node by label and id
+      operationId: postNodeByLabelAndId
+      tags:
+        - node
+      parameters:
+        - name: label
+          in: path
+          required: true
+          description: The label of the Node to retrieve
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: The id of the Node to retrieve
+          schema:
+            type: string
+      requestBody:
+        description: Node Properties
+        content:
+          application/json:
+            schema:
+              type: object
+            examples:
+              person:
+                summary: A person node example
+                value: {"name": "Max De Marzi", "age": 39}
+              location:
+                summary: A location node example
+                value: {"name": "Chicago", "type": "city"}
+      responses:
+        '201':
+          description: Node Response
+          content:
+            application/json:
+              schema:
+                type: object
+
+    delete:
+      summary: Delete node by label and id
+      operationId: deleteNodeByLabelAndId
+      tags:
+        - node
+      parameters:
+        - name: label
+          in: path
+          required: true
+          description: The label of the Node to delete
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          description: The id of the Node to delete
+          schema:
+            type: string
 components:
   schemas:
     RelationshipType:
