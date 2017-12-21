@@ -80,24 +80,24 @@ paths:
         '404':
           description: Relationship Type Not Found
   /node/{label}/{id}:
+    parameters:
+      - name: label
+        in: path
+        required: true
+        description: The label of the Node
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of the Node
+        schema:
+          type: string
     get:
-      summary: Retrieve node by label and id
-      operationId: getNodeByLabelAndId
+      summary: Retrieve Node
+      operationId: getNode
       tags:
         - node
-      parameters:
-        - name: label
-          in: path
-          required: true
-          description: The label of the Node to retrieve
-          schema:
-            type: string
-        - name: id
-          in: path
-          required: true
-          description: The id of the Node to retrieve
-          schema:
-            type: string
       responses:
         '200':
           description: Node Response
@@ -109,23 +109,10 @@ paths:
           description: Node Not Found
 
     post:
-      summary: Create Node by label and id
-      operationId: postNodeByLabelAndId
+      summary: Create Node
+      operationId: postNode
       tags:
         - node
-      parameters:
-        - name: label
-          in: path
-          required: true
-          description: The label of the Node to retrieve
-          schema:
-            type: string
-        - name: id
-          in: path
-          required: true
-          description: The id of the Node to retrieve
-          schema:
-            type: string
       requestBody:
         description: Node Properties
         content:
@@ -148,23 +135,328 @@ paths:
                 type: object
 
     delete:
-      summary: Delete node by label and id
-      operationId: deleteNodeByLabelAndId
+      summary: Delete Node
+      operationId: deleteNode
       tags:
         - node
-      parameters:
-        - name: label
-          in: path
-          required: true
-          description: The label of the Node to delete
-          schema:
-            type: string
-        - name: id
-          in: path
-          required: true
-          description: The id of the Node to delete
-          schema:
-            type: string
+  /node/{label}/{id}/properties:
+    parameters:
+      - name: label
+        in: path
+        required: true
+        description: The label of the Node
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of the Node
+        schema:
+          type: string
+    put:
+      summary: Set Node Properties
+      operationId: putNodeProperties
+      tags:
+        - node_properties
+      requestBody:
+        description: Node Properties
+        content:
+          application/json:
+            schema:
+              type: object
+            examples:
+              person:
+                summary: A person node example
+                value: {"name": "Max De Marzi", "age": 39}
+              location:
+                summary: A location node example
+                value: {"name": "Chicago", "type": "city"}
+      responses:
+        '201':
+          description: Node Response
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      summary: Delete Node Properties
+      operationId: deleteNodeProperties
+      tags:
+        - node_properties
+  /node/{label}/{id}/property/{key}:
+    parameters:
+      - name: label
+        in: path
+        required: true
+        description: The label of the Node
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        description: The id of the Node
+        schema:
+          type: string
+      - name: key
+        in: path
+        required: true
+        description: The key of the Property
+        schema:
+          type: string
+    get:
+      summary: Retrieve a property from a Node
+      operationId: getNodeProperty
+      tags:
+        - node_property
+      responses:
+        '200':
+          description: Node Response
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+
+    put:
+      summary: Update a property from a Node
+      operationId: putNodeProperty
+      tags:
+        - node_property
+      requestBody:
+        description: Node Property
+        content:
+          text/plain:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Node Response
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      summary: Delete a property from a Node
+      operationId: deleteNodeProperty
+      tags:
+        - node_property
+      responses:
+        '204':
+          description: No Content
+  /relationship/{type}/{label1}/{from}/{label2}/{to}:
+    parameters:
+      - name: type
+        in: path
+        required: true
+        description: The Relationship Type
+        schema:
+          type: string
+      - name: label1
+        in: path
+        required: true
+        description: The label of the from Node
+        schema:
+          type: string
+      - name: from
+        in: path
+        required: true
+        description: The id of the from Node
+        schema:
+          type: string
+      - name: label2
+        in: path
+        required: true
+        description: The label of the to Node
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        description: The id of the to Node
+        schema:
+          type: string
+    get:
+      summary: Retrieve Relationship
+      operationId: getRelationship
+      tags:
+        - relationship
+      responses:
+        '200':
+          description: Relationship Response
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Relationship Not Found
+
+    post:
+      summary: Create Relationship
+      operationId: postRelationship
+      tags:
+        - relationship
+      requestBody:
+        description: Relationship Properties
+        content:
+          application/json:
+            schema:
+              type: object
+            examples:
+              rated:
+                summary: A rated relationship example
+                value: {"stars": 4}
+      responses:
+        '201':
+          description: Relationship Response
+          content:
+            application/json:
+              schema:
+                type: object
+
+    delete:
+      summary: Delete Relationship
+      operationId: deleteRelationship
+      tags:
+        - relationship
+  /relationship/{type}/{label1}/{from}/{label2}/{to}/properties:
+    parameters:
+      - name: type
+        in: path
+        required: true
+        description: The Relationship Type
+        schema:
+          type: string
+      - name: label1
+        in: path
+        required: true
+        description: The label of the from Node
+        schema:
+          type: string
+      - name: from
+        in: path
+        required: true
+        description: The id of the from Node
+        schema:
+          type: string
+      - name: label2
+        in: path
+        required: true
+        description: The label of the to Node
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        description: The id of the to Node
+        schema:
+          type: string
+    put:
+      summary: Set Relationship Properties by label and id
+      operationId: putRelationshipProperties
+      tags:
+        - relationship_properties
+      requestBody:
+        description: Relationship Properties
+        content:
+          application/json:
+            schema:
+              type: object
+            examples:
+              rated:
+                summary: A rated relationship example
+                value: {"stars": 4}
+      responses:
+        '201':
+          description: Relationship Response
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      summary: Delete Relationship Properties
+      operationId: deleteRelationshipProperties
+      tags:
+        - relationship_properties
+  /relationship/{type}/{label1}/{from}/{label2}/{to}/property/{key}:
+    parameters:
+      - name: type
+        in: path
+        required: true
+        description: The Relationship Type
+        schema:
+          type: string
+      - name: label1
+        in: path
+        required: true
+        description: The label of the from Node
+        schema:
+          type: string
+      - name: from
+        in: path
+        required: true
+        description: The id of the from Node
+        schema:
+          type: string
+      - name: label2
+        in: path
+        required: true
+        description: The label of the to Node
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        description: The id of the to Node
+        schema:
+          type: string
+      - name: key
+        in: path
+        required: true
+        description: The key of the Property
+        schema:
+          type: string
+    get:
+      summary: Retrieve a property from a Relationship
+      operationId: getRelationshipProperty
+      tags:
+        - relationship_property
+      responses:
+        '200':
+          description: Relationship Response
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Not Found
+
+    put:
+      summary: Update a property from a Relationship
+      operationId: putRelationshipProperty
+      tags:
+        - relationship_property
+      requestBody:
+        description: Relationship Property
+        content:
+          text/plain:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Relationship Response
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      summary: Delete a property from a Relationship
+      operationId: deleteRelationshipProperty
+      tags:
+        - relationship_property
+      responses:
+        '204':
+          description: No Content
 components:
   schemas:
     RelationshipType:

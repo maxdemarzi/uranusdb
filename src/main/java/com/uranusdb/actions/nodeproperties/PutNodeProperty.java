@@ -21,7 +21,12 @@ public interface PutNodeProperty {
                 exchangeEvent.clear();
             }
         } else {
-            Object property = JsonIterator.deserialize(body, Types.OBJECT);
+            Object property = null;
+            try {
+                property = JsonIterator.deserialize(body, Types.OBJECT);
+            } catch (Exception e) {
+                // TODO: 12/21/17 Decide what to do with this 
+            }
             succeeded = graphs[number].updateNodeProperty(
                     exchangeEvent.getParameters().get(Constants.LABEL),
                     exchangeEvent.getParameters().get(Constants.ID),
