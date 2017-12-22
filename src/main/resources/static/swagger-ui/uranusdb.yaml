@@ -13,6 +13,23 @@ info:
       url: https://www.gnu.org/licenses/agpl.html
 servers:
   - url: http://localhost:8080/db
+tags:
+  - name: relationship_type
+    description: Relationship Type Endpoints
+  - name: node
+    description: Node Endpoints
+  - name: node_properties
+    description: Node Properties Endpoints
+  - name: node_property
+    description: Node Property Endpoints
+  - name: relationship
+    description: Relationship Endpoints
+  - name: relationship_properties
+    description: Relationship Properties Endpoints
+  - name: relationship_property
+    description: Relationship Property Endpoints
+  - name: related
+    description: Related Endpoints
 paths:
   /relationship_types:
     get:
@@ -107,7 +124,6 @@ paths:
                 type: object
         '404':
           description: Node Not Found
-
     post:
       summary: Create Node
       operationId: postNode
@@ -133,7 +149,6 @@ paths:
             application/json:
               schema:
                 type: object
-
     delete:
       summary: Delete Node
       operationId: deleteNode
@@ -430,7 +445,6 @@ paths:
                 type: object
         '404':
           description: Not Found
-
     put:
       summary: Update a property from a Relationship
       operationId: putRelationshipProperty
@@ -457,6 +471,85 @@ paths:
       responses:
         '204':
           description: No Content
+
+  /related/{label1}/{from}/{label2}/{to}:
+    parameters:
+      - name: label1
+        in: path
+        required: true
+        description: The label of the from Node
+        schema:
+          type: string
+      - name: from
+        in: path
+        required: true
+        description: The id of the from Node
+        schema:
+          type: string
+      - name: label2
+        in: path
+        required: true
+        description: The label of the to Node
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        description: The id of the to Node
+        schema:
+          type: string
+    get:
+      summary: Check if two Nodes are related
+      operationId: getRelated
+      tags:
+        - related
+      responses:
+        '200':
+          description: Nodes are related
+        '404':
+          description: Nodes aer not Related
+  /related/{type}/{label1}/{from}/{label2}/{to}:
+    parameters:
+      - name: type
+        in: path
+        required: true
+        description: The Relationship Type
+        schema:
+          type: string
+      - name: label1
+        in: path
+        required: true
+        description: The label of the from Node
+        schema:
+          type: string
+      - name: from
+        in: path
+        required: true
+        description: The id of the from Node
+        schema:
+          type: string
+      - name: label2
+        in: path
+        required: true
+        description: The label of the to Node
+        schema:
+          type: string
+      - name: to
+        in: path
+        required: true
+        description: The id of the to Node
+        schema:
+          type: string
+    get:
+      summary: Check if two Nodes are related
+      operationId: getRelatedByType
+      tags:
+        - related
+      responses:
+        '200':
+          description: Nodes are related
+        '404':
+          description: Nodes aer not Related
 components:
   schemas:
     RelationshipType:
