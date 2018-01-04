@@ -57,8 +57,8 @@ public class RelationshipsTest {
     public void shouldAddRelationship() {
         db.addNode("Node", "one");
         db.addNode("Node", "two");
-        boolean created = db.addRelationship("FRIENDS", "Node", "one", "Node", "two");
-        Assert.assertTrue(created);
+        int created = db.addRelationship("FRIENDS", "Node", "one", "Node", "two");
+        Assert.assertTrue(created > -1);
     }
 
     @Test
@@ -78,15 +78,19 @@ public class RelationshipsTest {
         db.addNode("Node", "one");
         db.addNode("Node", "two");
         db.addRelationship("MULTIPLE", "Node", "one", "Node", "two");
-        boolean created = db.addRelationship("MULTIPLE", "Node", "one", "Node", "two");
-        Assert.assertTrue(created);
+        int created = db.addRelationship("MULTIPLE", "Node", "one", "Node", "two");
+        Assert.assertTrue(created > -1);
         Integer expected = 2;
         Assert.assertEquals(expected, db.getRelationshipTypeCount("MULTIPLE"));
         Assert.assertEquals(new HashMap<String, Object>(){{
+            put("_type", "MULTIPLE");
+            put("_id", 1);
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }}, db.getRelationship("MULTIPLE", "Node", "one", "Node", "two"));
         Assert.assertEquals(new HashMap<String, Object>(){{
+            put("_type", "MULTIPLE");
+            put("_id", 2);
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }}, db.getRelationship("MULTIPLE", "Node", "one", "Node", "two", 2));
@@ -99,8 +103,8 @@ public class RelationshipsTest {
         Map rel1Properties = new HashMap<String, Object>() {{ put("key", "rel1");}};
         Map rel2Properties = new HashMap<String, Object>() {{ put("key", "rel2");}};
         db.addRelationship("MULTIPLE", "Node", "one", "Node", "two", rel1Properties);
-        boolean created = db.addRelationship("MULTIPLE", "Node", "one", "Node", "two", rel2Properties);
-        Assert.assertTrue(created);
+        int created = db.addRelationship("MULTIPLE", "Node", "one", "Node", "two", rel2Properties);
+        Assert.assertTrue(created > -1);
         Integer expected = 2;
         Assert.assertEquals(expected, db.getRelationshipTypeCount("MULTIPLE"));
         Assert.assertEquals(rel1Properties, db.getRelationship("MULTIPLE", "Node", "one", "Node", "two"));
@@ -190,6 +194,8 @@ public class RelationshipsTest {
         db.addRelationship("RATED", "Node", "one", "Node", "two");
         Object actual = db.getRelationship("RATED", "Node", "one", "Node", "two");
         Assert.assertEquals(new HashMap<String, Object>(){{
+            put("_type", "RATED");
+            put("_id", 1);
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }}, actual);
@@ -217,8 +223,8 @@ public class RelationshipsTest {
         Map<String, Object> rel2Properties = new HashMap<String, Object>() {{ put("key", "rel2");}};
 
         db.addRelationship("MULTIPLE", "Node", "one", "Node", "two", rel1Properties);
-        boolean created = db.addRelationship("MULTIPLE", "Node", "one", "Node", "two", rel2Properties);
-        Assert.assertTrue(created);
+        int created = db.addRelationship("MULTIPLE", "Node", "one", "Node", "two", rel2Properties);
+        Assert.assertTrue(created > -1);
         Integer expected = 2;
         Assert.assertEquals(expected, db.getRelationshipTypeCount("MULTIPLE"));
         Assert.assertEquals(rel1Properties, db.getRelationship("MULTIPLE", "Node", "one", "Node", "two"));

@@ -23,6 +23,7 @@
         <chronicle-queue.version>4.5.27</chronicle-queue.version>
         <undertow.version>1.4.21.Final</undertow.version>
         <disruptor.version>3.3.6</disruptor.version>
+        <gremlin.version>3.3.1</gremlin.version>
         <jackson.version>2.9.0</jackson.version>
         <maven-compiler.version>3.6.0</maven-compiler.version>
         <coveralls.version>4.3.0</coveralls.version>
@@ -119,6 +120,24 @@
             <version>${disruptor.version}</version>
         </dependency>
 
+        <!-- Gremlin -->
+        <dependency>
+            <groupId>org.apache.tinkerpop</groupId>
+            <artifactId>gremlin-core</artifactId>
+            <version>${gremlin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tinkerpop</groupId>
+            <artifactId>gremlin-test</artifactId>
+            <version>${gremlin.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <!-- Tests -->
         <dependency>

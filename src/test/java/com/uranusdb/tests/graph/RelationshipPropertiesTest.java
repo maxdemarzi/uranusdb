@@ -112,13 +112,22 @@ public class RelationshipPropertiesTest {
         db.addNode("Node", "one");
         db.addNode("Node", "two");
         Map<String, Object> rel1Properties = new HashMap<String, Object>() {{ put("key", "rel1");}};
-        Map<String, Object> rel2Properties = new HashMap<String, Object>() {{ put("key", "rel2");}};
+        Map<String, Object> rel2Properties = new HashMap<String, Object>() {{
+            put("key", "rel2");
+        }};
 
+        Map<String, Object> rel2Expected = new HashMap<String, Object>() {{
+            put("_id", 1);
+            put("_type", "LOVES");
+            put("_incoming_node_id", 2);
+            put("_outgoing_node_id", 3);
+            put("key", "rel2");
+        }};
         db.addRelationship("LOVES", "Node", "one", "Node", "two", rel1Properties);
         db.updateRelationshipProperties("LOVES", "Node", "one", "Node", "two", rel2Properties);
 
         Map<String, Object> actual = db.getRelationship("LOVES","Node", "one","Node", "two");
-        Assert.assertEquals(rel2Properties, actual);
+        Assert.assertEquals(rel2Expected, actual);
     }
 
     @Test
@@ -127,14 +136,24 @@ public class RelationshipPropertiesTest {
         db.addNode("Node", "two");
         Map<String, Object> rel1Properties = new HashMap<String, Object>() {{ put("key", "rel1");}};
         Map<String, Object> rel2Properties = new HashMap<String, Object>() {{ put("key", "rel2");}};
-        Map<String, Object> rel3Properties = new HashMap<String, Object>() {{ put("key", "rel3");}};
+        Map<String, Object> rel3Properties = new HashMap<String, Object>() {{
+            put("key", "rel3");
+        }};
 
+        Map<String, Object> rel3Expected = new HashMap<String, Object>() {{
+            put("_id", 2);
+            put("_count", 2);
+            put("_type", "LOVES");
+            put("_incoming_node_id", 2);
+            put("_outgoing_node_id", 3);
+            put("key", "rel3");
+        }};
         db.addRelationship("LOVES", "Node", "one", "Node", "two", rel1Properties);
         db.addRelationship("LOVES", "Node", "one", "Node", "two", rel2Properties);
         db.updateRelationshipProperties("LOVES", "Node", "one", "Node", "two", 2, rel3Properties);
 
         Map<String, Object> actual = db.getRelationship("LOVES", "Node", "one", "Node", "two", 2);
-        Assert.assertEquals(rel3Properties, actual);
+        Assert.assertEquals(rel3Expected, actual);
     }
 
     @Test
@@ -148,6 +167,8 @@ public class RelationshipPropertiesTest {
 
         Map<String, Object> actual = db.getRelationship("LOVES", "Node", "one", "Node", "two");
         Assert.assertEquals(new HashMap<String, Object>() {{
+            put("_id", 1);
+            put("_type", "LOVES");
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }}, actual);
@@ -166,6 +187,9 @@ public class RelationshipPropertiesTest {
 
         Map<String, Object> actual = db.getRelationship("LOVES", "Node", "one", "Node", "two", 2);
         Assert.assertEquals(  new HashMap<String, Object>() {{
+            put("_id", 2);
+            put("_count", 2);
+            put("_type", "LOVES");
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }}, actual);
@@ -178,6 +202,8 @@ public class RelationshipPropertiesTest {
         Map<String, Object> rel1Properties = new HashMap<String, Object>() {{ put("key", "rel1");}};
         Map<String, Object> rel2Properties = new HashMap<String, Object>() {{
             put("key", "rel2");
+            put("_type", "LOVES");
+            put("_id", 1);
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }};
@@ -211,6 +237,8 @@ public class RelationshipPropertiesTest {
         Map<String, Object> rel1Properties = new HashMap<String, Object>() {{ put("key", "rel1"); put("key2", "rel2"); }};
         Map<String, Object> rel2Properties = new HashMap<String, Object>() {{
             put("key2", "rel2");
+            put("_type", "LOVES");
+            put("_id", 1);
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }};
@@ -228,8 +256,11 @@ public class RelationshipPropertiesTest {
         db.addNode("Node", "two");
         Map<String, Object> rel1Properties = new HashMap<String, Object>() {{ put("key", "rel1"); put("key2", "rel2"); }};
         Map<String, Object> rel2Properties = new HashMap<String, Object>() {{ put("key", "rel2"); put("key2", "rel2"); }};
-        Map<String, Object> rel3Properties = new HashMap<String, Object>() {{
+        Map<String, Object> properties = new HashMap<String, Object>() {{
             put("key2", "rel2");
+            put("_id", 2);
+            put("_count", 2);
+            put("_type", "LOVES");
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }};
@@ -239,7 +270,7 @@ public class RelationshipPropertiesTest {
         db.deleteRelationshipProperty("LOVES", "Node", "one", "Node", "two", 2, "key");
 
         Map<String, Object> actual = db.getRelationship("LOVES", "Node", "one", "Node", "two", 2);
-        Assert.assertEquals(rel3Properties, actual);
+        Assert.assertEquals(properties, actual);
     }
 
     @Test
@@ -248,6 +279,8 @@ public class RelationshipPropertiesTest {
         db.addNode("Node", "two");
         Map<String, Object> rel2Properties = new HashMap<String, Object>() {{
             put("key", "rel2");
+            put("_type", "LOVES");
+            put("_id", 1);
             put("_incoming_node_id", 2);
             put("_outgoing_node_id", 3);
         }};

@@ -32,9 +32,13 @@ public class NodesTest {
 
     @Test
     public void shouldAddNode() {
-        boolean created = db.addNode("Node", "key");
-        Assert.assertTrue(created);
-        Assert.assertEquals(new HashMap<>(), db.getNode("Node", "key"));
+        int created = db.addNode("Node", "key");
+        Assert.assertTrue(created > -1);
+        Assert.assertEquals(new HashMap<String, Object>() {{
+            put("_id", 2);
+            put("_label", "Node");
+            put("_key", "key");
+        }}, db.getNode("Node", "key"));
     }
 
     @Test
@@ -42,17 +46,17 @@ public class NodesTest {
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("name", "max");
         properties.put("email", "maxdemarzi@hotmail.com");
-        boolean created = db.addNode("Node", "max", properties);
-        Assert.assertTrue(created);
+        int created = db.addNode("Node", "max", properties);
+        Assert.assertTrue(created > -1);
         Assert.assertEquals(properties, db.getNode("Node", "max"));
     }
 
     @Test
     public void shouldRemoveNode() {
-        boolean result = db.addNode("Node", "simple");
-        Assert.assertTrue(result);
-        result = db.removeNode("Node","simple");
-        Assert.assertTrue(result);
+        int result = db.addNode("Node", "simple");
+        Assert.assertTrue(result > -1);
+        boolean remove = db.removeNode("Node","simple");
+        Assert.assertTrue(remove);
         Assert.assertTrue(db.getNode("Node", "simple") == null);
     }
 
@@ -67,13 +71,13 @@ public class NodesTest {
         HashMap<String, Object> node4props = new HashMap<>();
         node3props.put("id", "node4");
 
-        boolean result = db.addNode("Node", "node1", node1props);
+        int result = db.addNode("Node", "node1", node1props);
         db.addNode("Node", "node2", node2props);
         db.addNode("Node", "node3", node3props);
-        Assert.assertTrue(result);
+        Assert.assertTrue(result > -1);
         int node2Id = db.getNodeId("Node", "node2");
-        result = db.removeNode("Node", "node2");
-        Assert.assertTrue(result);
+        boolean remove = db.removeNode("Node", "node2");
+        Assert.assertTrue(remove);
         Assert.assertTrue(db.getNode("Node", "node2") == null);
         Assert.assertEquals(node1props, db.getNode("Node", "node1"));
         Assert.assertEquals(node3props, db.getNode("Node", "node3"));
@@ -111,19 +115,25 @@ public class NodesTest {
         properties.put("name", "max");
         properties.put("email", "maxdemarzi@hotmail.com");
         properties.put("address", address);
-        boolean created = db.addNode("Node", "complex", properties);
-        Assert.assertTrue(created);
+        int created = db.addNode("Node", "complex", properties);
+        Assert.assertTrue(created > -1);
         Assert.assertEquals(properties, db.getNode("Node", "complex"));
     }
 
     @Test
     public void shouldGetEmptyNode() {
-        Assert.assertEquals(new HashMap<>(), db.getNode("Node", "empty"));
+        Assert.assertEquals(new HashMap<String, Object>() {{
+            put("_id", 0);
+            put("_label", "Node");
+            put("_key", "empty");  }}, db.getNode("Node", "empty"));
     }
 
     @Test
     public void shouldGetNodeWithProperties() {
-        HashMap<String, Object> properties = new HashMap<>();
+        HashMap<String, Object> properties = new HashMap<String, Object>() {{
+            put("_id", 1);
+            put("_label", "Node");
+            put("_key", "existing");  }};
         properties.put("name", "max");
         properties.put("email", "maxdemarzi@hotmail.com");
         Assert.assertEquals(properties, db.getNode("Node", "existing"));
@@ -139,11 +149,15 @@ public class NodesTest {
 
     @Test
     public void shouldNotAddNodeAlreadyThere() {
-        boolean created = db.addNode("Node", "key");
-        Assert.assertTrue(created);
-        Assert.assertEquals(new HashMap<>(), db.getNode("Node", "key"));
+        int created = db.addNode("Node", "key");
+        Assert.assertTrue(created > -1);
+        Assert.assertEquals(new HashMap<String, Object>() {{
+            put("_id", 2);
+            put("_label", "Node");
+            put("_key", "key");  }},
+                db.getNode("Node", "key"));
         created = db.addNode("Node", "key");
-        Assert.assertFalse(created);
+        Assert.assertFalse(created > -1);
     }
 
     @Test
