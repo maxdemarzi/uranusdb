@@ -1,4 +1,4 @@
-package com.uranusdb.languages.gremlin;
+package com.uranusdb.languages.gremlin.structure;
 
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Element;

@@ -1,4 +1,4 @@
-package com.uranusdb.languages.gremlin;
+package com.uranusdb.languages.gremlin.structure;
 
 import com.uranusdb.graph.FastUtilGraph;
 import org.apache.commons.configuration.BaseConfiguration;
@@ -33,7 +33,16 @@ public class UranusGraph implements Graph {
 
     @Override
     public String toString() {
-        return StringFactory.graphString(this, "vertices:" + IteratorUtils.count(this.vertices()) + " edges:" + IteratorUtils.count(this.edges()));
+        long vertices = 0;
+        long edges = 0;
+        try {
+            vertices = IteratorUtils.count(this.vertices());
+            edges = IteratorUtils.count(this.edges());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return //StringFactory.graphString(this, "vertices:" + IteratorUtils.count(this.vertices()) + " edges:" + IteratorUtils.count(this.edges()));
+                StringFactory.graphString(this, "vertices:" + vertices + " edges:" + edges);
     }
 
     // Helpers to hydrate Nodes and Relationships
@@ -67,23 +76,24 @@ public class UranusGraph implements Graph {
     public Vertex addVertex(Object... keyValues) {
         ElementHelper.legalPropertyKeyValueArray(keyValues);
         final String label = ElementHelper.getLabelValue(keyValues).orElse(Vertex.DEFAULT_LABEL);
-        Object key = ElementHelper.getIdValue(keyValues).orElse(null);
+        Object key = UranusHelper.getOptionalValue("key", keyValues).orElse(null);
         if (key == null) {
             key = UUID.randomUUID().toString();
         }
 
-        Map<String, Object> properties;
-        try {
-            properties = ElementHelper.asMap(keyValues);
-        } catch (IllegalStateException ex) {
-            throw VertexProperty.Exceptions.multiPropertiesNotSupported();
+        Object nodeId = ElementHelper.getIdValue(keyValues).orElse(null);
+        if (nodeId != null) { throw VertexProperty.Exceptions.userSuppliedIdsNotSupported(); }
+
+        Map<String, Object> properties =  new HashMap<>();
+        for (int i = 0; i < keyValues.length; i = i + 2) {
+            if (!keyValues[i].equals(T.label))
+                properties.put((String)keyValues[i], keyValues[i+1]);
         }
-        properties.remove("label");
-        for (Map.Entry<String, Object> entry : properties.entrySet()) {
-            ElementHelper.validateProperty(entry.getKey(), entry.getValue());
-        }
+        // Extra validation
+        if (properties.keySet().contains("")) { throw Property.Exceptions.propertyKeyCanNotBeEmpty(); }
 
         int id = graph.addNode(label, (String)key, properties);
+
         return new UranusVertex(id, this);
     }
 
@@ -105,7 +115,7 @@ public class UranusGraph implements Graph {
             final List<Object> idList = Arrays.asList(vertexIds);
             validateHomogenousIds(idList);
 
-            return IteratorUtils.stream(idList).map(node -> (Vertex) new UranusVertex(node, this)).iterator();
+            return IteratorUtils.stream(idList).map(node -> (Vertex) new UranusVertex(node, this)).filter(Objects::nonNull).iterator();
         }
     }
 
@@ -119,7 +129,7 @@ public class UranusGraph implements Graph {
             final List<Object> idList = Arrays.asList(edgeIds);
             validateHomogenousIds(idList);
 
-            return IteratorUtils.stream(idList).map(rel -> (Edge) new UranusEdge(rel, this)).iterator();
+            return IteratorUtils.stream(idList).map(rel -> (Edge) new UranusEdge(rel, this)).filter(Objects::nonNull).iterator();
 
 //            return Stream.of(edgeIds)
 //                    .map(id -> {
@@ -199,6 +209,10 @@ public class UranusGraph implements Graph {
             return vertexFeatures;
         }
 
+        @Override
+        public String toString() {
+            return StringFactory.featureString(this);
+        }
     }
 
     public class UranusGraphVertexFeatures implements Features.VertexFeatures {
@@ -335,17 +349,17 @@ public class UranusGraph implements Graph {
 
         @Override
         public boolean supportsMixedListValues() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean supportsSerializableValues() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean supportsUniformListValues() {
-            return false;
+            return true;
         }
 
         @Override
@@ -376,17 +390,17 @@ public class UranusGraph implements Graph {
 
         @Override
         public boolean supportsMixedListValues() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean supportsSerializableValues() {
-            return false;
+            return true;
         }
 
         @Override
         public boolean supportsUniformListValues() {
-            return false;
+            return true;
         }
 
     }

@@ -1,6 +1,6 @@
 package com.uranusdb.tests.gremlin;
 
-import com.uranusdb.languages.gremlin.UranusGraph;
+import com.uranusdb.languages.gremlin.structure.UranusGraph;
 import org.apache.tinkerpop.gremlin.GraphProviderClass;
 import org.apache.tinkerpop.gremlin.structure.StructureIntegrateSuite;
 import org.junit.runner.RunWith;

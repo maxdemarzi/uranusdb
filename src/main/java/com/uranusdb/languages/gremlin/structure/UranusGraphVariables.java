@@ -1,4 +1,4 @@
-package com.uranusdb.languages.gremlin;
+package com.uranusdb.languages.gremlin.structure;
 
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.util.GraphVariableHelper;

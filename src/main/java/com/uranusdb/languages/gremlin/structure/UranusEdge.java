@@ -1,4 +1,4 @@
-package com.uranusdb.languages.gremlin;
+package com.uranusdb.languages.gremlin.structure;
 
 import org.apache.tinkerpop.gremlin.structure.*;
 import org.apache.tinkerpop.gremlin.structure.util.ElementHelper;
@@ -15,7 +15,17 @@ public class UranusEdge extends UranusElement implements Edge {
 
     public UranusEdge(final Object id, UranusGraph graph) {
         super(id, graph);
-        Map<String, Object> raw_properties = graph.getRelationshipById((int)this.id());
+
+        Map<String, Object> raw_properties;
+        try {
+            raw_properties = graph.getRelationshipById((int)this.id());
+        } catch (Exception e) {
+            throw new NoSuchElementException();
+        }
+
+        if (raw_properties == null) {
+            throw new NoSuchElementException();
+        }
         this.outgoing_node_id = (int)raw_properties.get("_outgoing_node_id");
         this.incoming_node_id = (int)raw_properties.get("_incoming_node_id");
         this.type = (String)raw_properties.get("_type");

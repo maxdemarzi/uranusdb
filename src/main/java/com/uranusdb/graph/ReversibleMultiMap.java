@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 public class ReversibleMultiMap {
 
@@ -82,7 +83,12 @@ public class ReversibleMultiMap {
     }
 
     public Collection<Integer> getAllRels() {
+
         return from2rel.values();
+    }
+
+    public Iterator<Integer> getAllRelsIter() {
+        return new ArrayList<Integer> () {{ addAll(from2rel.values()); }}.iterator();
     }
 
     public int getFromSize(Integer from) {

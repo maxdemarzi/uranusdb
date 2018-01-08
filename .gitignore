@@ -2,6 +2,7 @@ uranusdb.iml
 .idea
 target
 events
+max.json
 
 # Compiled class file
 *.class

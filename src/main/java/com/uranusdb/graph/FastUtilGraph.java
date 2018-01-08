@@ -951,14 +951,14 @@ public class FastUtilGraph implements Graph {
     }
 
     public Iterator<Map<String, Object>> getAllNodes() {
-        ArrayList<Iterator<Integer>> iterators = new ArrayList<>();
-        nodeKeys.keySet().forEach( key -> iterators.add(nodeKeys.get(key).values().iterator()));
+        ArrayList<ObjectIterator<Object2IntMap.Entry<String>>> iterators = new ArrayList<>();
+        nodeKeys.keySet().forEach( key -> iterators.add(nodeKeys.get(key).object2IntEntrySet().fastIterator()));
         return new NodeIterator(Iterators.concat(iterators.iterator())).invoke();
     }
 
     public Iterator<Map<String,Object>> getNodes(String label) {
         if(nodeKeys.containsKey(label)) {
-            Iterator<Integer> iter = nodeKeys.get(label).values().iterator();
+            ObjectIterator<Object2IntMap.Entry<String>> iter = nodeKeys.get(label).object2IntEntrySet().fastIterator();
             return new NodeIterator(iter).invoke();
         }
 
@@ -967,13 +967,13 @@ public class FastUtilGraph implements Graph {
 
     public Iterator<Map<String, Object>> getAllRelationships() {
         ArrayList<Iterator<Integer>> iterators = new ArrayList<>();
-        related.keySet().forEach( key -> iterators.add(related.get(key).getAllRels().iterator()));
+        related.keySet().forEach( key -> iterators.add(related.get(key).getAllRelsIter()));
         return new RelationshipIterator(Iterators.concat(iterators.iterator())).invoke();
     }
 
     public Iterator<Map<String, Object>> getRelationships(String type) {
         if (related.containsKey(type)) {
-            Iterator<Integer> iter = related.get(type).getAllRels().iterator();
+            Iterator<Integer> iter = related.get(type).getAllRelsIter();
             return new RelationshipIterator(iter).invoke();
         }
         return null;
@@ -999,8 +999,8 @@ public class FastUtilGraph implements Graph {
             types.retainAll(related.keySet());
             relTypes = types;
         }
-
-        for (String type : relTypes) {
+        for (int i = relTypes.size()-1; i >= 0; i--) {
+            String type = relTypes.get(i);
             if (direction != Direction.IN) {
                 if (relationshipKeys.get(type + 1).containsKey(((long)node1 << 32) + node2)) {
                     return true;
@@ -1038,10 +1038,11 @@ public class FastUtilGraph implements Graph {
             };
         }
     }
-    private class NodeIterator {
-        private Iterator<Integer> iter;
 
-        NodeIterator(Iterator<Integer> iter) {
+    private class NodeIterator {
+        private Iterator<Object2IntMap.Entry<String>> iter;
+
+        NodeIterator(Iterator<Object2IntMap.Entry<String>> iter) {
             this.iter = iter;
         }
 
@@ -1054,7 +1055,14 @@ public class FastUtilGraph implements Graph {
 
                 @Override
                 public Map<String, Object> next() {
-                    return nodes.get(iter.next());
+                    Map<String, Object> node = null;
+                    //try {
+                        int id = iter.next().getIntValue();
+                        node = nodes.get(id);
+                    //} catch (ArrayIndexOutOfBoundsException ex) {
+                    //    ex.printStackTrace();
+                    //}
+                    return node;
                 }
             };
         }

@@ -1,4 +1,4 @@
-package com.uranusdb.languages.gremlin;
+package com.uranusdb.languages.gremlin.structure;
 
 import org.apache.tinkerpop.gremlin.structure.*;
 import org.apache.tinkerpop.gremlin.structure.util.ElementHelper;
@@ -19,6 +19,10 @@ public class UranusVertex extends UranusElement implements Vertex {
         try {
             raw_properties = uranusGraph.graph.getNodeById((int)this.id());
         } catch (Exception e) {
+            throw new NoSuchElementException();
+        }
+
+        if (raw_properties == null) {
             throw new NoSuchElementException();
         }
 
@@ -74,6 +78,7 @@ public class UranusVertex extends UranusElement implements Vertex {
     public <V> VertexProperty<V> property(VertexProperty.Cardinality cardinality, String property, V value, Object... keyValues) {
         ElementHelper.legalPropertyKeyValueArray(keyValues);
         ElementHelper.validateProperty(property, value);
+        if (keyValues.length > 0 &&  keyValues[0].toString().equals("id")) { throw VertexProperty.Exceptions.userSuppliedIdsNotSupported(); }
         this.graph.graph.updateNodeProperty(label, key, property, value );
         return new UranusVertexProperty(this, property, value);
     }

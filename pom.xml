@@ -7,6 +7,38 @@
     <groupId>com.uranusdb</groupId>
     <artifactId>uranus</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <name>Uranus DB</name>
+    <description>Uranus Graph Database</description>
+    <inceptionYear>2018</inceptionYear>
+    <url>http://uranusdb.com/</url>
+
+
+    <licenses>
+        <license>
+            <name>GNU Affero General Public License, Version 3</name>
+            <url>http://www.gnu.org/licenses/agpl-3.0-standalone.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Max De Marzi</name>
+            <email>maxdemarzi@hotmail.com</email>
+            <organization>Max De Marzi</organization>
+            <organizationUrl>http://maxdemarzi.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/maxdemarzi/uranusdb.git</connection>
+        <developerConnection>scm:git:git@github.com:maxdemarzi/uranusdb.git</developerConnection>
+        <url>https://github.com/maxdemarzi/uranusdb</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/maxdemarzi/uranusdb/issues</url>
+    </issueManagement>
 
     <properties>
         <jmh.version>1.19</jmh.version>
@@ -23,8 +55,9 @@
         <chronicle-queue.version>4.5.27</chronicle-queue.version>
         <undertow.version>1.4.21.Final</undertow.version>
         <disruptor.version>3.3.6</disruptor.version>
-        <gremlin.version>3.3.1</gremlin.version>
+        <gremlin.version>3.3.2-SNAPSHOT</gremlin.version>
         <jackson.version>2.9.0</jackson.version>
+        <log4j.version>1.7.25</log4j.version>
         <maven-compiler.version>3.6.0</maven-compiler.version>
         <coveralls.version>4.3.0</coveralls.version>
         <jacoco.version>0.7.9</jacoco.version>
@@ -130,8 +163,10 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
+            <version>${log4j.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>gremlin-test</artifactId>

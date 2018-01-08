@@ -1,6 +1,6 @@
 package com.uranusdb.tests.gremlin;
 
-import com.uranusdb.languages.gremlin.*;
+import com.uranusdb.languages.gremlin.structure.*;
 import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.AbstractGraphProvider;
 import org.apache.tinkerpop.gremlin.LoadGraphWith;
