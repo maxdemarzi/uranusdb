@@ -8,26 +8,28 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 import java.util.*;
 
 public class UranusVertex extends UranusElement implements Vertex {
-    static final Set<String> META = new HashSet<String>() {{ add("_id"); add("_label"); add("_key");}};
-
     private String label;
     private String key;
+    private boolean exists = false;
 
     public UranusVertex(final Object id, final UranusGraph uranusGraph) {
         super(id, uranusGraph);
-        Map<String, Object> raw_properties;
+        Map<String, Object> raw_properties = null;
         try {
             raw_properties = uranusGraph.graph.getNodeById((int)this.id());
         } catch (Exception e) {
-            throw new NoSuchElementException();
+           // throw new NoSuchElementException();
         }
 
-        if (raw_properties == null) {
-            throw new NoSuchElementException();
+        if (raw_properties != null) {
+            this.label = (String)raw_properties.get("~label");
+            this.key = (String)raw_properties.get("~key");
+            this.exists = true;
         }
+    }
 
-        this.label = (String)raw_properties.get("_label");
-        this.key = (String)raw_properties.get("_key");
+    public boolean exists() {
+        return this.exists;
     }
 
     @Override
@@ -164,7 +166,7 @@ public class UranusVertex extends UranusElement implements Vertex {
             return null == value ? Collections.emptyIterator() : IteratorUtils.of(new UranusVertexProperty(this, propertyKeys[0], value));
         } else {
             for (Map.Entry<String, Object> entry : raw_properties.entrySet()) {
-                if (!entry.getKey().startsWith("_") && (keys.isEmpty() || keys.contains(entry.getKey()))) {
+                if (!entry.getKey().startsWith("~") && (keys.isEmpty() || keys.contains(entry.getKey()))) {
                     properties.add(new UranusVertexProperty(this, entry.getKey(), entry.getValue()));
                 }
             }
@@ -177,7 +179,7 @@ public class UranusVertex extends UranusElement implements Vertex {
     public Set<String> keys() {
         Set<String> keys = new HashSet<>();
         for (String key : graph.graph.getNodeById((int)id).keySet()) {
-            if (!key.startsWith("_")) {
+            if (!key.startsWith("~")) {
                 keys.add(key);
             }
         }

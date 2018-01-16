@@ -145,8 +145,16 @@ public class RelationshipPropertiesTest {
         HashMap<String, Object> prop = new HashMap<>();
         prop.put("stars", 4);
         prop.put("archived", true);
-        prop.put("_incoming_node_id", 0);
-        prop.put("_outgoing_node_id", 2);
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("stars", 4);
+        properties.put("archived", true);
+        properties.put("since", "2017-01-07");
+        properties.put("~incoming_node_id", 0);
+        properties.put("~outgoing_node_id", 2);
+        properties.put("~id", 2);
+        properties.put("~count", 2);
+        properties.put("~type", "FOLLOWS");
 
         given().
                 contentType("application/json").
@@ -155,7 +163,7 @@ public class RelationshipPropertiesTest {
                 put("/db/relationship/FOLLOWS/Node/node1/Node/node3/properties").
                 then().
                 assertThat().
-                body("$", equalTo(prop)).
+                body("$", equalTo(properties)).
                 statusCode(201).
                 contentType("application/json");
     }
@@ -209,8 +217,16 @@ public class RelationshipPropertiesTest {
         HashMap<String, Object> prop = new HashMap<>();
         prop.put("stars", 4);
         prop.put("archived", true);
-        prop.put("_incoming_node_id", 0);
-        prop.put("_outgoing_node_id", 2);
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("stars", 4);
+        properties.put("archived", true);
+        properties.put("since", "2017-01-07");
+        properties.put("~incoming_node_id", 0);
+        properties.put("~outgoing_node_id", 2);
+        properties.put("~id", 2);
+        properties.put("~count", 2);
+        properties.put("~type", "FOLLOWS");
 
         given().
                 contentType("application/json").
@@ -219,7 +235,7 @@ public class RelationshipPropertiesTest {
                 put("/db/relationship/FOLLOWS/Node/node1/Node/node3/2/properties").
                 then().
                 assertThat().
-                body("$", equalTo(prop)).
+                body("$", equalTo(properties)).
                 statusCode(201).
                 contentType("application/json");
     }

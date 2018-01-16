@@ -36,15 +36,15 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getOutgoingRelationships("Node", "one");
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "ENEMIES");
-            put("_id", 1);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 2);  }});
+            put("~type", "ENEMIES");
+            put("~id", 1);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 2);  }});
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});        Assert.assertEquals(expected, actual);
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});        Assert.assertEquals(expected, actual);
     }
 
     @Test
@@ -57,15 +57,15 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getOutgoingRelationships(0);
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "ENEMIES");
-            put("_id", 1);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 2);  }});
+            put("~type", "ENEMIES");
+            put("~id", 1);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 2);  }});
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
         Assert.assertEquals(expected, actual);
     }
 
@@ -79,10 +79,10 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getOutgoingRelationships("FRIENDS", "Node", "one");
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
 
         Assert.assertEquals(expected, actual);
     }
@@ -97,10 +97,10 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getOutgoingRelationships("FRIENDS",0);
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
 
         Assert.assertEquals(expected, actual);
     }
@@ -115,15 +115,15 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getIncomingRelationships("Node", "two");
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "ENEMIES");
-            put("_id", 1);
-            put("_incoming_node_id", 2);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "ENEMIES");
+            put("~id", 1);
+            put("~incoming_node_id", 2);
+            put("~outgoing_node_id", 1);  }});
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
         Assert.assertEquals(expected, actual);
     }
 
@@ -137,15 +137,15 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getIncomingRelationships(1);
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "ENEMIES");
-            put("_id", 1);
-            put("_incoming_node_id", 2);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "ENEMIES");
+            put("~id", 1);
+            put("~incoming_node_id", 2);
+            put("~outgoing_node_id", 1);  }});
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
         Assert.assertEquals(expected, actual);
     }
 
@@ -159,10 +159,10 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getIncomingRelationships("FRIENDS", "Node", "two");
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
         Assert.assertEquals(expected, actual);
     }
 
@@ -176,10 +176,10 @@ public class TraversingTest {
         List<Map<String, Object>> actual = db.getIncomingRelationships("FRIENDS",1);
         ArrayList<Map<String, Object>> expected = new ArrayList<>();
         expected.add(new HashMap<String, Object>(){{
-            put("_type", "FRIENDS");
-            put("_id", 0);
-            put("_incoming_node_id", 0);
-            put("_outgoing_node_id", 1);  }});
+            put("~type", "FRIENDS");
+            put("~id", 0);
+            put("~incoming_node_id", 0);
+            put("~outgoing_node_id", 1);  }});
 
         Assert.assertEquals(expected, actual);
     }

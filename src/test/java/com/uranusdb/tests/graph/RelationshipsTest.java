@@ -83,16 +83,16 @@ public class RelationshipsTest {
         Integer expected = 2;
         Assert.assertEquals(expected, db.getRelationshipTypeCount("MULTIPLE"));
         Assert.assertEquals(new HashMap<String, Object>(){{
-            put("_type", "MULTIPLE");
-            put("_id", 1);
-            put("_incoming_node_id", 2);
-            put("_outgoing_node_id", 3);
+            put("~type", "MULTIPLE");
+            put("~id", 1);
+            put("~incoming_node_id", 2);
+            put("~outgoing_node_id", 3);
         }}, db.getRelationship("MULTIPLE", "Node", "one", "Node", "two"));
         Assert.assertEquals(new HashMap<String, Object>(){{
-            put("_type", "MULTIPLE");
-            put("_id", 2);
-            put("_incoming_node_id", 2);
-            put("_outgoing_node_id", 3);
+            put("~type", "MULTIPLE");
+            put("~id", 2);
+            put("~incoming_node_id", 2);
+            put("~outgoing_node_id", 3);
         }}, db.getRelationship("MULTIPLE", "Node", "one", "Node", "two", 2));
     }
 
@@ -194,10 +194,10 @@ public class RelationshipsTest {
         db.addRelationship("RATED", "Node", "one", "Node", "two");
         Object actual = db.getRelationship("RATED", "Node", "one", "Node", "two");
         Assert.assertEquals(new HashMap<String, Object>(){{
-            put("_type", "RATED");
-            put("_id", 1);
-            put("_incoming_node_id", 2);
-            put("_outgoing_node_id", 3);
+            put("~type", "RATED");
+            put("~id", 1);
+            put("~incoming_node_id", 2);
+            put("~outgoing_node_id", 3);
         }}, actual);
         Integer expected = 1;
         Assert.assertEquals(expected, db.getRelationshipTypeCount("RATED"));

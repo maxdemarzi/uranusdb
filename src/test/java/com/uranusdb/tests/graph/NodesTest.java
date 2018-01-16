@@ -35,9 +35,9 @@ public class NodesTest {
         int created = db.addNode("Node", "key");
         Assert.assertTrue(created > -1);
         Assert.assertEquals(new HashMap<String, Object>() {{
-            put("_id", 2);
-            put("_label", "Node");
-            put("_key", "key");
+            put("~id", 2);
+            put("~label", "Node");
+            put("~key", "key");
         }}, db.getNode("Node", "key"));
     }
 
@@ -123,17 +123,17 @@ public class NodesTest {
     @Test
     public void shouldGetEmptyNode() {
         Assert.assertEquals(new HashMap<String, Object>() {{
-            put("_id", 0);
-            put("_label", "Node");
-            put("_key", "empty");  }}, db.getNode("Node", "empty"));
+            put("~id", 0);
+            put("~label", "Node");
+            put("~key", "empty");  }}, db.getNode("Node", "empty"));
     }
 
     @Test
     public void shouldGetNodeWithProperties() {
         HashMap<String, Object> properties = new HashMap<String, Object>() {{
-            put("_id", 1);
-            put("_label", "Node");
-            put("_key", "existing");  }};
+            put("~id", 1);
+            put("~label", "Node");
+            put("~key", "existing");  }};
         properties.put("name", "max");
         properties.put("email", "maxdemarzi@hotmail.com");
         Assert.assertEquals(properties, db.getNode("Node", "existing"));
@@ -152,9 +152,9 @@ public class NodesTest {
         int created = db.addNode("Node", "key");
         Assert.assertTrue(created > -1);
         Assert.assertEquals(new HashMap<String, Object>() {{
-            put("_id", 2);
-            put("_label", "Node");
-            put("_key", "key");  }},
+            put("~id", 2);
+            put("~label", "Node");
+            put("~key", "key");  }},
                 db.getNode("Node", "key"));
         created = db.addNode("Node", "key");
         Assert.assertFalse(created > -1);

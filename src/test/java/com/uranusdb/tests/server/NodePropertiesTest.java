@@ -137,8 +137,9 @@ public class NodePropertiesTest {
         properties.put("name", "Max");
         properties.put("age", 38);
         properties.put("weight", 220);
-        properties.put("_id", 0);
-        properties.put("_key", "node1");
+        properties.put("~id", 0);
+        properties.put("~key", "node1");
+        properties.put("~label", "Node");
 
         given().
                 contentType("application/json").
@@ -157,9 +158,9 @@ public class NodePropertiesTest {
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("name", "Max");
         properties.put("age", 37);
-        properties.put("_id", 0);
-        properties.put("_label", "Node");
-        properties.put("_key", "node1");
+        properties.put("~id", 0);
+        properties.put("~label", "Node");
+        properties.put("~key", "node1");
         given().
                 contentType("application/json").
                 when().

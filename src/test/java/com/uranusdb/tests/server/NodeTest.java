@@ -47,31 +47,46 @@ public class NodeTest {
 
     @Test
     public void integrationTestGetEmptyNode() {
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("~id", 0);
+        properties.put("~key", "emptyNode");
+        properties.put("~label", "Node");
+
         when().
                 get("/db/node/Node/emptyNode").
                 then().
                 assertThat()
-                .body(equalTo("{}"))
+                .body("$", equalTo(properties))
                 .statusCode(200)
                 .contentType("application/json");
     }
 
     @Test
     public void integrationTestGetSinglePropertyNode() {
-        HashMap<String, Object> prop =  new HashMap<>();
-        prop.put("property", "Value");
+        HashMap<String, Object> properties =  new HashMap<>();
+        properties.put("property", "Value");
+        properties.put("~id", 1);
+        properties.put("~key", "singlePropertyNode");
+        properties.put("~label", "Node");
+
 
         when().
                 get("/db/node/Node/singlePropertyNode").
                 then().
                 assertThat()
-                .body("$", equalTo(prop))
+                .body("$", equalTo(properties))
                 .statusCode(200)
                 .contentType("application/json");
     }
 
     @Test
     public void integrationTestCreateEmptyNode() {
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("~id", 0);
+        properties.put("~key", "emptyNode");
+        properties.put("~label", "Node");
+
         given().
                 contentType("application/json;charset=UTF-8").
                 body("{}").
@@ -79,7 +94,7 @@ public class NodeTest {
                 post("/db/node/Node/emptyNode").
                 then().
                 assertThat().
-                body("$", equalTo(new HashMap<>())).
+                body("$", equalTo(properties)).
                 statusCode(201).
                 contentType("application/json");
     }
@@ -89,6 +104,12 @@ public class NodeTest {
         HashMap<String, Object> prop =  new HashMap<>();
         prop.put("property", "Value");
 
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("property", "Value");
+        properties.put("~id", 1);
+        properties.put("~key", "singlePropertyNode");
+        properties.put("~label", "Node");
+
         given().
                 contentType("application/json;charset=UTF-8").
                 body(prop).
@@ -96,7 +117,7 @@ public class NodeTest {
                 post("/db/node/Node/singlePropertyNode").
                 then().
                 assertThat().
-                body("$", equalTo(prop)).
+                body("$", equalTo(properties)).
                 statusCode(201).
                 contentType("application/json");
     }

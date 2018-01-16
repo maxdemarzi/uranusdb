@@ -8,29 +8,32 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
 import java.util.*;
 
 public class UranusEdge extends UranusElement implements Edge {
-    static final Set<String> META = new HashSet<String>() {{ add("_id"); add("_type"); add("_outgoing_node_id"); add("_incoming_node_id"); add("_count"); }};
-    final int outgoing_node_id;
-    final int incoming_node_id;
-    final String type;
+    private int outgoing_node_id;
+    private int incoming_node_id;
+    private String type;
+    private boolean exists = false;
 
     public UranusEdge(final Object id, UranusGraph graph) {
         super(id, graph);
 
-        Map<String, Object> raw_properties;
+        Map<String, Object> raw_properties = null;
         try {
             raw_properties = graph.getRelationshipById((int)this.id());
         } catch (Exception e) {
             throw new NoSuchElementException();
         }
 
-        if (raw_properties == null) {
-            throw new NoSuchElementException();
+        if (raw_properties != null) {
+            this.outgoing_node_id = (int) raw_properties.get("~outgoing_node_id");
+            this.incoming_node_id = (int) raw_properties.get("~incoming_node_id");
+            this.type = (String) raw_properties.get("~type");
+            this.exists = true;
         }
-        this.outgoing_node_id = (int)raw_properties.get("_outgoing_node_id");
-        this.incoming_node_id = (int)raw_properties.get("_incoming_node_id");
-        this.type = (String)raw_properties.get("_type");
     }
 
+    public boolean exists() {
+        return this.exists;
+    }
 
     @Override
     public Vertex outVertex() {
@@ -91,7 +94,7 @@ public class UranusEdge extends UranusElement implements Edge {
             return null == value ? Collections.emptyIterator() : IteratorUtils.of(new UranusProperty(this, propertyKeys[0], value));
         } else {
             for (Map.Entry<String, Object> entry : raw_properties.entrySet()) {
-                if (!entry.getKey().startsWith("_")) {
+                if (!entry.getKey().startsWith("~")) {
                     properties.add(new UranusProperty(this, entry.getKey(), entry.getValue()));
                 }
             }
@@ -103,7 +106,7 @@ public class UranusEdge extends UranusElement implements Edge {
     public Set<String> keys() {
         Set<String> keys = new HashSet<>();
         for (String key : graph.graph.getRelationshipById((int)id).keySet()) {
-            if (!key.startsWith("_")) {
+            if (!key.startsWith("~")) {
                 keys.add(key);
             }
         }

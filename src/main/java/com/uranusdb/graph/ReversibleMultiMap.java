@@ -2,6 +2,8 @@ package com.uranusdb.graph;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntCollection;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,8 +85,13 @@ public class ReversibleMultiMap {
     }
 
     public Collection<Integer> getAllRels() {
-
         return from2rel.values();
+    }
+
+    public IntCollection getAllRelIds() {
+        IntCollection intCollection = new IntArrayList();
+        intCollection.addAll(from2rel.values());
+        return intCollection;
     }
 
     public Iterator<Integer> getAllRelsIter() {

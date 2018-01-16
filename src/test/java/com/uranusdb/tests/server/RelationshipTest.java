@@ -51,50 +51,74 @@ public class RelationshipTest {
 
     @Test
     public void integrationTestGetEmptyRelationship() {
+
+        HashMap<String, Object> properties = new HashMap<>();
+        properties.put("~incoming_node_id", 0);
+        properties.put("~outgoing_node_id", 1);
+        properties.put("~id", 0);
+        properties.put("~type", "FOLLOWS");
+
         when().
                 get("/db/relationship/FOLLOWS/Node/node1/Node/node2").
                 then().
                 assertThat().
-                body("$", equalTo(new HashMap<String, Object>(){{ put("_incoming_node_id", 0); put("_outgoing_node_id", 1); }})).
+                body("$", equalTo(properties)).
                 statusCode(200).
                 contentType("application/json");
     }
 
     @Test
     public void integrationTestGetRelationshipWithNumber() {
+        HashMap<String, Object> properties =  new HashMap<>();
+        properties.put("stars", 5);
+        properties.put("~incoming_node_id", 0);
+        properties.put("~outgoing_node_id", 2);
+        properties.put("~id", 2);
+        properties.put("~count", 2);
+        properties.put("~type", "FOLLOWS");
+
         when().
                 get("/db/relationship/FOLLOWS/Node/node1/Node/node3/2").
                 then().
                 assertThat().
-                body("$", equalTo(new HashMap<String, Object>(){{ put("stars", 5); put("_incoming_node_id", 0); put("_outgoing_node_id", 2); }})).
+                body("$", equalTo(properties)).
                 statusCode(200);
     }
 
     @Test
     public void integrationTestGetSinglePropertyRelationship() {
-        HashMap<String, Object> prop =  new HashMap<>();
-        prop.put("stars", 5);
-        prop.put("_incoming_node_id", 0);
-        prop.put("_outgoing_node_id", 2);
+        HashMap<String, Object> properties =  new HashMap<>();
+        properties.put("stars", 5);
+        properties.put("~incoming_node_id", 0);
+        properties.put("~outgoing_node_id", 2);
+        properties.put("~id", 2);
+        properties.put("~count", 2);
+        properties.put("~type", "FOLLOWS");
 
         when().
                 get("/db/relationship/FOLLOWS/Node/node1/Node/node3").
                 then().
                 assertThat().
-                body("$", equalTo(prop)).
+                body("$", equalTo(properties)).
                 statusCode(200).
                 contentType("application/json");
     }
 
     @Test
     public void integrationTestCreateEmptyRelationship() {
+        HashMap<String, Object> properties =  new HashMap<>();
+        properties.put("~incoming_node_id", 1);
+        properties.put("~outgoing_node_id", 0);
+        properties.put("~id", 3);
+        properties.put("~type", "FOLLOWS");
+
         given().
                 contentType("application/json").
                 when().
                 post("/db/relationship/FOLLOWS/Node/node2/Node/node1").
                 then().
                 assertThat().
-                body("$", equalTo(new HashMap<String, Object>(){{ put("_incoming_node_id", 1); put("_outgoing_node_id", 0); }})).
+                body("$", equalTo(properties)).
                 statusCode(201).
                 contentType("application/json");
     }
@@ -103,8 +127,16 @@ public class RelationshipTest {
     public void integrationTestCreateSinglePropertyRelationship() {
         HashMap<String, Object> prop =  new HashMap<>();
         prop.put("stars", 5);
-        prop.put("_incoming_node_id", 0);
-        prop.put("_outgoing_node_id", 2);
+        prop.put("~incoming_node_id", 0);
+        prop.put("~outgoing_node_id", 2);
+
+        HashMap<String, Object> properties =  new HashMap<>();
+        properties.put("stars", 5);
+        properties.put("~incoming_node_id", 0);
+        properties.put("~outgoing_node_id", 2);
+        properties.put("~id", 2);
+        properties.put("~count", 2);
+        properties.put("~type", "FOLLOWS");
 
         given().
                 contentType("application/json").
@@ -113,7 +145,7 @@ public class RelationshipTest {
                 post("/db/relationship/FOLLOWS/Node/node1/Node/node3").
                 then().
                 assertThat().
-                body("$", equalTo(prop)).
+                body("$", equalTo(properties)).
                 statusCode(201).
                 contentType("application/json");
     }

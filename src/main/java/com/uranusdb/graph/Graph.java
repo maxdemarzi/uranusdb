@@ -12,8 +12,7 @@ public interface Graph {
     Set<String> getRelationshipTypes();
     Map<String, Integer> getRelationshipTypesCount();
     Integer getRelationshipTypeCount(String type);
-
-    // TODO: 12/29/17 Add id to all methods!!!!
+    
     // Nodes
     int addNode(String label, String key);
     int addNode(String label, String key, Map<String, Object> properties);
@@ -112,8 +111,10 @@ public interface Graph {
 
     // Extras
     Iterator<Map<String, Object>> getAllNodes();
+    Iterator getAllNodeIds();
     Iterator<Map<String, Object>> getNodes(String label);
     Iterator<Map<String, Object>> getAllRelationships();
+    Iterator getAllRelationshipIds();
     Iterator<Map<String, Object>> getRelationships(String type);
 
     // Related
