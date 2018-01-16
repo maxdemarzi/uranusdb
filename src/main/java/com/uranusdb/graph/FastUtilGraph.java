@@ -10,7 +10,6 @@ import org.roaringbitmap.RoaringBitmap;
 import java.util.*;
 
 public class FastUtilGraph implements Graph {
-    //private Object2ObjectArrayMap<String, Object2IntOpenHashMap<String>> nodeKeys;
     private Object2ObjectArrayMap<String, Object2IntMap<String>> nodeKeys;
     private ObjectArrayList<Map<String, Object>> nodes;
     private Object2ObjectArrayMap<String, Long2IntOpenHashMap> relationshipKeys;
