@@ -1,8 +1,8 @@
 uranusdb.iml
 .idea
 target
-events
 max.json
+*.cq4
 
 # Compiled class file
 *.class

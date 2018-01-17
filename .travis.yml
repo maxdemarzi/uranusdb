@@ -5,7 +5,7 @@ language: java
 jdk:
 - oraclejdk8
 script:
-- travis_wait 30 mvn test -B -q
+- travis_wait 30 mvn test -B
 cache:
   directories:
   - $HOME/.m2
